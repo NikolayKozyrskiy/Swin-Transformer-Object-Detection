@@ -1,5 +1,4 @@
 import copy
-
 import numpy as np
 import pytest
 from mmcv.utils import build_from_cfg
@@ -30,7 +29,7 @@ def construct_toy_data(poly2mask=True):
                             dtype=np.uint8)[None, :, :]
         results['gt_masks'] = BitmapMasks(gt_masks, 2, 4)
     else:
-        raw_masks = [[np.array([1, 0, 2, 0, 2, 1, 1, 1], dtype=np.float)]]
+        raw_masks = [[np.array([1, 0, 2, 0, 2, 1, 1, 1], dtype=np.float32)]]
         results['gt_masks'] = PolygonMasks(raw_masks, 2, 4)
 
     # segmentations
@@ -147,7 +146,7 @@ def test_shear():
     # test PolygonMasks with shear horizontally, magnitude=1
     results = construct_toy_data(poly2mask=False)
     results_sheared = shear_module(copy.deepcopy(results))
-    gt_masks = [[np.array([1, 0, 2, 0, 3, 1, 2, 1], dtype=np.float)]]
+    gt_masks = [[np.array([1, 0, 2, 0, 3, 1, 2, 1], dtype=np.float32)]]
     results_gt['gt_masks'] = PolygonMasks(gt_masks, 2, 4)
     check_shear(results_gt, results_sheared)
 
@@ -184,7 +183,7 @@ def test_shear():
     # test PolygonMasks with shear vertically, magnitude=-1
     results = construct_toy_data(poly2mask=False)
     results_sheared = shear_module(copy.deepcopy(results))
-    gt_masks = [[np.array([1, 0, 2, 0, 2, 0, 1, 0], dtype=np.float)]]
+    gt_masks = [[np.array([1, 0, 2, 0, 2, 0, 1, 0], dtype=np.float32)]]
     results_gt['gt_masks'] = PolygonMasks(gt_masks, 2, 4)
     check_shear(results_gt, results_sheared)
 

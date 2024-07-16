@@ -1,5 +1,4 @@
 import copy
-
 import numpy as np
 import pytest
 from mmcv.utils import build_from_cfg
@@ -30,7 +29,7 @@ def construct_toy_data(poly2mask=True):
                             dtype=np.uint8)[None, :, :]
         results['gt_masks'] = BitmapMasks(gt_masks, 2, 4)
     else:
-        raw_masks = [[np.array([0, 0, 2, 0, 2, 1, 0, 1], dtype=np.float)]]
+        raw_masks = [[np.array([0, 0, 2, 0, 2, 1, 0, 1], dtype=np.float32)]]
         results['gt_masks'] = PolygonMasks(raw_masks, 2, 4)
     # segmentations
     results['seg_fields'] = ['gt_semantic_seg']
@@ -144,7 +143,7 @@ def test_rotate():
     # test clockwise rotation with angle 90, PolygonMasks
     results = construct_toy_data(poly2mask=False)
     results_rotated = rotate_module(copy.deepcopy(results))
-    gt_masks = [[np.array([2, 0, 2, 1, 1, 1, 1, 0], dtype=np.float)]]
+    gt_masks = [[np.array([2, 0, 2, 1, 1, 1, 1, 0], dtype=np.float32)]]
     results_gt['gt_masks'] = PolygonMasks(gt_masks, 2, 4)
     check_rotate(results_gt, results_rotated)
 
@@ -200,7 +199,7 @@ def test_rotate():
     # and specify the ratation center, PolygonMasks
     results = construct_toy_data(poly2mask=False)
     results_rotated = rotate_module(copy.deepcopy(results))
-    gt_masks = [[np.array([0, 0, 0, 0, 1, 0, 1, 0], dtype=np.float)]]
+    gt_masks = [[np.array([0, 0, 0, 0, 1, 0, 1, 0], dtype=np.float32)]]
     results_gt['gt_masks'] = PolygonMasks(gt_masks, 2, 4)
     check_rotate(results_gt, results_rotated)
 
